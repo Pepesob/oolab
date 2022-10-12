@@ -2,10 +2,10 @@ package agh.ics.oop;
 
 public class World {
     public static void main(String[] args){
-        System.out.println("system wystartował");
+        System.out.println("system wystartowal");
         Directions[] d = toDirections(args);
         run(d);
-        System.out.println("system zakończył działanie");
+        System.out.println("system zakonczyl dzialanie");
     }
 
     static void print_str_arr(String[] arr){
@@ -19,10 +19,11 @@ public class World {
     static void run(Directions[] arr){
         for (Directions command: arr) {
             switch (command) {
-                case PRAWO -> System.out.println("Zwierzak skręca w prawo");
-                case LEWO -> System.out.println("Zwierzak skręca w lewo");
+                case PRAWO -> System.out.println("Zwierzak skreca w prawo");
+                case LEWO -> System.out.println("Zwierzak skreca w lewo");
                 case PRZOD -> System.out.println("Zwierzak idzie do przodu");
-                case TYL -> System.out.println("Zwierzak idzie do tyłu");
+                case TYL -> System.out.println("Zwierzak idzie do tylu");
+                default -> System.out.print("");
             }
         }
     }
@@ -35,6 +36,7 @@ public class World {
                 case "b" -> dir[j] = Directions.TYL;
                 case "r" -> dir[j] = Directions.PRAWO;
                 case "l" -> dir[j] = Directions.LEWO;
+                default -> dir[j] = Directions.DEFAULT;
             }
             j++;
         }
