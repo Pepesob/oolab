@@ -4,5 +4,6 @@ enum Directions {
     PRAWO,
     LEWO,
     PRZOD,
-    TYL
+    TYL,
+    DEFAULT
 }
