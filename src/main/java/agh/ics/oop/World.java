@@ -2,10 +2,10 @@ package agh.ics.oop;
 
 public class World {
     public static void main(String[] args){
+        /*
         System.out.println("system wystartowal");
         Directions[] d = toDirections(args);
         run(d);
-        System.out.println("system zakonczyl dzialanie");
         Vector2d position1 = new Vector2d(1,2);
         System.out.println(position1);
         Vector2d position2 = new Vector2d(-2,1);
@@ -13,6 +13,20 @@ public class World {
         System.out.println(position1.add(position2));
         MapDirection test = MapDirection.NORTH;
         System.out.println(test.toUnitVector());
+        System.out.println("system zakonczyl dzialanie");
+         */
+        System.out.println("Start");
+        Animal creature = new Animal();
+        System.out.println(creature);
+        MoveDirection[] commands = OptionParser.parse(args);
+        for (MoveDirection direction: commands){
+            if (direction == null){
+                break;
+            }
+            creature.move(direction);
+        }
+        System.out.println(creature);
+        System.out.println("End");
     }
 
     static void print_str_arr(String[] arr){
