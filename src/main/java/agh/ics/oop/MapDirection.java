@@ -12,6 +12,15 @@ enum MapDirection{
         };
     }
 
+    public String simplifiedString(){
+        return switch (this) {
+            case NORTH -> "^";
+            case SOUTH -> "v";
+            case EAST -> ">";
+            case WEST -> "<";
+        };
+    }
+
     public MapDirection next(){
         return switch (this) {
             case NORTH -> EAST;
