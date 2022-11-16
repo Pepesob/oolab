@@ -3,18 +3,15 @@ package agh.ics.oop;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RectangularMap implements IWorldMap{
+public class RectangularMap extends AbstractWorldMap{
 
     final int width;
     final int height;
-    List<Animal> animals = new LinkedList<>();
-    final MapVisualizer visualiser;
 
 
     public RectangularMap(int width, int height){
         this.width = width;
         this.height = height;
-        visualiser = new MapVisualizer(this);
     }
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -22,7 +19,7 @@ public class RectangularMap implements IWorldMap{
             return false;
         }
         for (Animal creature: this.animals) {
-            if (position.equals(creature.getPosition())){
+            if (creature.isAt(position)){
                 return false;
             }
         }
@@ -30,35 +27,23 @@ public class RectangularMap implements IWorldMap{
     }
 
     @Override
-    public boolean place(Animal animal) {
-        if (animal.world.canMoveTo(animal.getPosition())){
-            animals.add(animal);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
+    public Object returnObject(Vector2d position){
         for (Animal creature: this.animals) {
-            if (position.equals(creature.getPosition())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public Object objectAt(Vector2d position) {
-        for (Animal creature: this.animals) {
-            if (position.equals(creature.getPosition())) {
+            if (creature.isAt(position)) {
                 return creature;
             }
         }
+
         return null;
     }
 
-    public String toString(){
-        return visualiser.draw(new Vector2d(0,0), new Vector2d(this.width,this.height));
+    @Override
+    Vector2d lowerLeft() {
+        return new Vector2d(0,0);
+    }
+
+    @Override
+    Vector2d upperRight() {
+        return new Vector2d(this.width, this.height);
     }
 }

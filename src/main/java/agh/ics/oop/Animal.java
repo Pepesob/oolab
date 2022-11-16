@@ -8,9 +8,9 @@ public class Animal {
 
     public IWorldMap world;
 
-    public Animal(){
-        this.position = new Vector2d(2,2);
-    }
+//    public Animal(){
+//        this.position = new Vector2d(2,2);
+//    }
 
     public Animal(IWorldMap map){
         this.world = map;
