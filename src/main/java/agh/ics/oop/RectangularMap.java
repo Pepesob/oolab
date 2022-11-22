@@ -18,23 +18,12 @@ public class RectangularMap extends AbstractWorldMap{
         if (!(position.x >= 0 && position.x <= width && position.y >= 0 && position.y <= height)){
             return false;
         }
-        for (Animal creature: this.animals) {
-            if (creature.isAt(position)){
-                return false;
-            }
-        }
-        return true;
+        return animals.get(position) == null;
     }
 
     @Override
     public Object returnObject(Vector2d position){
-        for (Animal creature: this.animals) {
-            if (creature.isAt(position)) {
-                return creature;
-            }
-        }
-
-        return null;
+        return animals.get(position);
     }
 
     @Override

@@ -1,54 +1,55 @@
 package agh.ics.oop;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-public class GrassField extends AbstractWorldMap{
+public class GrassField extends AbstractWorldMap {
 
     int n;
-    List<Grass> grass = new LinkedList<>();
+    Map<Vector2d, Grass> grass = new HashMap<>();
 
     public GrassField(int n){
         this.n = n;
-        Random r = new Random();
-        Vector2d v;
         for (int i = 0; i < n; i++){
-            v = new Vector2d(r.nextInt(0,(int) Math.sqrt(n*10)),r.nextInt(0,(int) Math.sqrt(n*10)));
-            while (isOccupied(v)){
-                v = new Vector2d(r.nextInt(0,(int) Math.sqrt(n*10)),r.nextInt(0,(int) Math.sqrt(n*10)));
-            }
-            grass.add(new Grass(v));
+            addGrass();
         }
+    }
+
+    private void addGrass(){
+        Random r = new Random();
+        Vector2d v = new Vector2d(r.nextInt(0,(int) Math.sqrt(n*10)),r.nextInt(0,(int) Math.sqrt(n*10)));
+        while (isOccupied(v)){
+            v = new Vector2d(r.nextInt(0,(int) Math.sqrt(n*10)),r.nextInt(0,(int) Math.sqrt(n*10)));
+        }
+        grass.put(v,new Grass(v));
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return !(objectAt(position) instanceof Animal);
+        if (objectAt(position) instanceof Animal){
+            return false;
+        }
+        if (objectAt(position) instanceof Grass){
+            grass.remove(position);
+            addGrass();
+        }
+        return true;
     }
 
     @Override
     public Object returnObject(Vector2d position){
-        for (Animal creature: this.animals) {
-            if (creature.isAt(position)) {
-                return creature;
-            }
+        if (animals.get(position) != null){
+            return animals.get(position);
         }
-        for (Grass grass1: this.grass){
-            if (grass1.getPosition().equals(position)){
-                return grass1;
-            }
-        }
-        return null;
+        return grass.get(position);
     }
 
     @Override
     public Vector2d lowerLeft(){
-        Vector2d v = this.animals.get(0).getPosition();
-        for (Animal animal: this.animals){
+        Vector2d v = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        for (Animal animal: this.animals.values()){
             v = v.lowerLeft(animal.getPosition());
         }
-        for (Grass grass1: this.grass){
+        for (Grass grass1: this.grass.values()){
             v = v.lowerLeft(grass1.getPosition());
         }
         return v;
@@ -56,13 +57,14 @@ public class GrassField extends AbstractWorldMap{
 
     @Override
     public Vector2d upperRight(){
-        Vector2d v = this.animals.get(0).getPosition();
-        for (Animal animal: this.animals){
+        Vector2d v = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        for (Animal animal: this.animals.values()){
             v = v.upperRight(animal.getPosition());
         }
-        for (Grass grass1: this.grass){
+        for (Grass grass1: this.grass.values()){
             v = v.upperRight(grass1.getPosition());
         }
         return v;
     }
+
 }
