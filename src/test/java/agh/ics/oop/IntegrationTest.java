@@ -1,48 +1,19 @@
 package agh.ics.oop;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class IntegrationTest {
 
-    public static void main(String[] args) {
-        MoveDirection[] directions = OptionParser.parse(args);
-        IWorldMap map = new RectangularMap(10, 5);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
-
-        IWorldMap test_map = new RectangularMap(10, 5);
-        assertExpectedPos(makeAnimals(positions, test_map), directions, test_map);
-
-        System.out.println(map);
-        System.out.println(test_map);
-        System.out.println(map.toString().equals(test_map.toString()));
-    }
-
-    private static void assertExpectedPos(Animal[] animals, MoveDirection[] directions, IWorldMap map){
-        int animal_index;
-        int i = 0;
-        for (MoveDirection command: directions){
-            animal_index = i%animals.length;
-            animals[animal_index].move(command);
-            i++;
-        }
-        for (Animal creature: animals){
-            if (!(creature.equals(map.objectAt(creature.getPosition())))){
-                throw new AssertionError();
-            }
-        }
-    }
-
-    private static Animal[] makeAnimals(Vector2d[] vectors, IWorldMap map){
-        Animal[] animals = new Animal[vectors.length];
-        for (int i = 0; i < vectors.length; i++){
-            animals[i] = new Animal(map, vectors[i]);
-            map.place(animals[i]);
-        }
-        return animals;
+    @Test
+    void optionParser(){
+        String[] toParse = {"f","b","l","r", "forward", "backward", "left", "right"};
+        MoveDirection[] actualDirections = {MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.RIGHT};
+        Assertions.assertArrayEquals(OptionParser.parse(toParse), (actualDirections));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> OptionParser.parse(new String[] {"sadkf;"}));
     }
 }
 

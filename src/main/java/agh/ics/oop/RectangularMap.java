@@ -26,13 +26,4 @@ public class RectangularMap extends AbstractWorldMap{
         return animals.get(position);
     }
 
-    @Override
-    Vector2d lowerLeft() {
-        return new Vector2d(0,0);
-    }
-
-    @Override
-    Vector2d upperRight() {
-        return new Vector2d(this.width, this.height);
-    }
 }

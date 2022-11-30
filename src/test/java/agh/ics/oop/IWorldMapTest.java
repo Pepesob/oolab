@@ -26,9 +26,9 @@ public class IWorldMapTest {
     void assertPlace(){
         resetVariables();
         Assertions.assertTrue(rm.place(creaturerm));
-        Assertions.assertFalse(rm.place(new Animal(rm, initPos)));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> rm.place(new Animal(rm, initPos)));
         Assertions.assertTrue(gf.place(creaturegf));
-        Assertions.assertFalse(gf.place(new Animal(gf, initPos)));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> rm.place(new Animal(gf, initPos)));
     }
 
     @Test
